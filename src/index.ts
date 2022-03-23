@@ -1,7 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import { ToDoListController } from "./modules/to_do_list/to_do_list.controller";
+import { ToDoListController } from "./modules/card/card.controller";
 import { UserController } from "./modules/user/user.controller";
 import bodyParser from "body-parser";
 
