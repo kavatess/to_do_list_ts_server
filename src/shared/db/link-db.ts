@@ -1,16 +1,19 @@
-import { readJsonFile } from "./read-json-file";
+import { ProcessFile } from "./process-file";
+import path from "path";
 
-export function aggregate(
+const rootPath = `${path.resolve(__dirname)}/../../../`;
+
+export function linkDb(
     root: string,
     child: string,
     rootVar: string,
     childVar: string
 ) {
-    let rootDb = readJsonFile(`../../../database/common/${root}.json`) as any[];
-    let childDb = readJsonFile(`../../../database/common/${child}.json`) as any[];
+    const rootDb = ProcessFile.readJsonFile(`${rootPath}/database/common/${root}.json`) as any[];
+    const childDb = ProcessFile.readJsonFile(`${rootPath}/database/common/${child}.json`) as any[];
     return rootDb.map((rootDoc) => {
         if (typeof rootDoc[rootVar] === "string") {
-            childDb.map((doc) => {
+            childDb.map(doc => {
                 if (doc[childVar] === rootDoc[rootVar]) {
                     rootDoc[rootVar] = doc;
                 }
@@ -33,4 +36,3 @@ export function aggregate(
         return rootDoc;
     });
 }
-aggregate("card", "task", "tasks", "id");
