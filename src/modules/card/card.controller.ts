@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { CreateTaskBody } from "./models/create-task.model";
+import { addTaskToCard } from "./services/create-task.service";
 import { getCard } from "./services/get-card.service";
 
 export const ToDoListController = Router();
@@ -10,8 +12,12 @@ ToDoListController.get("/card", function (req, res) {
 
 // Post: Create, add
 ToDoListController.post("/card", function (req, res) {
-    const cardData = getCard();
-    return res.json(cardData);
+    const { jobName, assignedMembers, createdAt, endTime, cardId }: CreateTaskBody = req.body;
+    if (!jobName) {
+        res.end(new Error("jobName is missing."));
+    }
+    addTaskToCard(req.body);
+    // return res.json(cardData);
 });
 
 // Put: Update, add to set
